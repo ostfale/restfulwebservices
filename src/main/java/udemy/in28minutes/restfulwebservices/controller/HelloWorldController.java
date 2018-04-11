@@ -7,12 +7,11 @@ import udemy.in28minutes.restfulwebservices.domain.HelloWorldBean;
 /**
  * Simple Controller
  * <p>
- * // GET
- * // URI - /hello-world
- * // method - "Hello World"
- * Created : 11.04.2018
+ * Annotation @RestController contains @ResponseBody which automatically converts the response bean into JSON using the integrated Jackson lib
+ * <p>
  *
  * @author : usauerbrei
+ * Created : 11.04.2018
  */
 @RestController
 public class HelloWorldController {
