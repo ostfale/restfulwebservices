@@ -14,6 +14,9 @@ public class User {
 	private String name;
 	private Date birthDate;
 
+	public User() {
+	}
+
 	public User(Long id, String name, Date birthDate) {
 		this.id = id;
 		this.name = name;
