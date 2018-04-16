@@ -4,9 +4,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import udemy.in28minutes.restfulwebservices.domain.User;
+import udemy.in28minutes.restfulwebservices.exception.UserNotFoundException;
 import udemy.in28minutes.restfulwebservices.service.UserDaoService;
 
 import java.net.URI;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
 
 /**
@@ -31,7 +33,11 @@ public class UserController {
 
 	@GetMapping("/users/{id}")
 	public User retrieveUser(@PathVariable Long id) {
-		return userDaoService.findOne(id);
+		User user =  userDaoService.findOne(id);
+		if (user == null) {
+			throw new UserNotFoundException("id-" + id);
+		}
+		return user;
 	}
 
 	/**
