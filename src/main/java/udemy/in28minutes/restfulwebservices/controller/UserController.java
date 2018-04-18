@@ -1,5 +1,7 @@
 package udemy.in28minutes.restfulwebservices.controller;
 
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -9,8 +11,9 @@ import udemy.in28minutes.restfulwebservices.service.UserDaoService;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 
 /**
  * User controller
@@ -33,12 +36,16 @@ public class UserController {
 	}
 
 	@GetMapping("/users/{id}")
-	public User retrieveUser(@PathVariable Long id) {
+	public Resource<User> retrieveUser(@PathVariable Long id) {
 		User user = userDaoService.findOne(id);
 		if (user == null) {
 			throw new UserNotFoundException("id-" + id);
 		}
-		return user;
+		//  HATEOAS link to all Users
+		Resource<User> resource = new Resource<>(user);
+		ControllerLinkBuilder linkBuilder = linkTo(methodOn(this.getClass()).retrieveAllUsers());
+		resource.add(linkBuilder.withRel("all-users"));
+		return resource;
 	}
 
 	@DeleteMapping("/users/{id}")
