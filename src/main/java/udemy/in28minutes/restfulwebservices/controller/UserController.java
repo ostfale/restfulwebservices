@@ -33,12 +33,21 @@ public class UserController {
 
 	@GetMapping("/users/{id}")
 	public User retrieveUser(@PathVariable Long id) {
-		User user =  userDaoService.findOne(id);
+		User user = userDaoService.findOne(id);
 		if (user == null) {
 			throw new UserNotFoundException("id-" + id);
 		}
 		return user;
 	}
+
+	@DeleteMapping("/users/{id}")
+	public void deleteUser(@PathVariable Long id) {
+		User user = userDaoService.deleteById(id);
+		if (user == null) {
+			throw new UserNotFoundException("id-" + id);
+		}
+	}
+
 
 	/**
 	 * Create a new user with status CREATED and return user and the URI. Status 201 created for ResponseEntity and the path will be extended
